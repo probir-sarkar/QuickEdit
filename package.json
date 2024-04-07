@@ -11,11 +11,14 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@tailwindcss/forms": "^0.5.7",
+    "axios": "^1.6.8",
     "lucide-react": "^0.364.0",
     "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.2",
+    "react-hot-toast": "^2.4.1",
+    "sonner": "^1.4.41",
     "swr": "^2.2.5",
     "usehooks-ts": "^3.1.0",
     "zod": "^3.22.4"

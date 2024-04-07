@@ -17,21 +17,14 @@ const fetcher: Fetcher<Contact[], string> = (url: string) =>
   fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`).then((res) => res.json());
 
 const ContactTable = () => {
-  const { data, error } = useSWR("/contacts", fetcher);
+  const { data, error, isLoading } = useSWR("/contacts", fetcher);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
-  // as of now new data repeat 100 times
-  const newData = data.flatMap((contact) =>
-    Array.from({ length: 100 }, (_, i) => ({
-      ...contact,
-      id: i + 1,
-    }))
-  );
+  if (isLoading) return <div>Loading...</div>;
+  if (error || !data || data.length < 1) return <div>Failed to load</div>;
 
-  const filteredData = newData.slice((currentPage - 1) * perPage, currentPage * perPage);
+  const filteredData = data.slice((currentPage - 1) * perPage, currentPage * perPage);
 
   return (
     <>
@@ -44,16 +37,17 @@ const ContactTable = () => {
             <th className="p-2 text-start">Email</th>
             <th className="p-2 text-start">Phone</th>
             <th className="p-2 text-start ">Gender</th>
+            <th className="p-2 text-start ">Edit</th>
             <th className="p-2 text-start ">Delete</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((contact, index) => (
-            <TableRow key={index} contact={contact} />
+            <TableRow key={contact.id} contact={contact} />
           ))}
         </tbody>
       </table>
-      <Pagination totalItems={newData.length} {...{ currentPage, setCurrentPage, perPage }} />
+      <Pagination totalItems={data.length} {...{ currentPage, setCurrentPage, perPage }} />
     </>
   );
 };

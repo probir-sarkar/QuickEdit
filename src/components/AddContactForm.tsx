@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { contactFormResolver, ContactFormType } from "@/schemas/contactFormSchema";
+import { contactFormResolver, blankForm, ContactFormType } from "@/schemas/contactFormSchema";
 import { toast } from "sonner";
 import { axiosInstance } from "@/configs/axios";
 import { MoveLeft } from "lucide-react";
 import Link from "next/link";
-import ContactForm from "@/components/Form";
+import ContactForm from "./Form";
 
 export default function AddContactForm() {
   const {

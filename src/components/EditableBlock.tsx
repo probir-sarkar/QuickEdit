@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Contact } from "./ContactTable";
+import { axiosInstance } from "@/configs/axios";
 
 interface Props {
   contact: Contact;
@@ -12,14 +13,8 @@ export const EditableBlock: React.FC<Props> = ({ contact, name }) => {
   const [saving, setSaving] = useState(false);
   async function update() {
     setSaving(true);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contacts/${contact.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ [name]: value }),
-    });
-    if (!res.ok) {
+    const res = await axiosInstance.patch(`/contacts/${contact.id}`, { [name]: value });
+    if (!(res.status === 200)) {
       setValue(contact[name]);
     }
     setSaving(false);
