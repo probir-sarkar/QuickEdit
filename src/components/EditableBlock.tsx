@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Contact } from "./ContactTable";
 import { axiosInstance } from "@/configs/axios";
+import { toast } from "sonner";
+import { isAxiosError } from "axios";
 
 interface Props {
   contact: Contact;
@@ -12,12 +14,25 @@ export const EditableBlock: React.FC<Props> = ({ contact, name }) => {
   const [value, setValue] = useState(contact[name]);
   const [saving, setSaving] = useState(false);
   async function update() {
-    setSaving(true);
-    const res = await axiosInstance.patch(`/contacts/${contact.id}`, { [name]: value });
-    if (!(res.status === 200)) {
+    try {
+      setSaving(true);
+      const res = await axiosInstance.patch(`/contacts/${contact.id}`, { [name]: value });
+      if (res.status === 200) {
+        toast.success("Updated");
+      } else {
+        throw new Error("Failed to update");
+      }
+    } catch (error) {
+      if (isAxiosError(error)) {
+        toast.error(error?.response?.data?.errors[0]?.message || "Failed to update");
+      } else {
+        toast.error("Failed to update");
+      }
+
       setValue(contact[name]);
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   }
   if (name == "gender") {
     return (
