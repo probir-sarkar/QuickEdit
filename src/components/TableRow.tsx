@@ -33,8 +33,11 @@ const TableRow: React.FC<Props> = ({ contact }) => {
   }
   return (
     <tr key={contact.id} className="border-b">
-      <td className="p-2">
-        <input type="checkbox" checked={checked} onChange={() => setChecked((prev) => !prev)} />
+      <td className="p-2 ">
+        <input className="" type="checkbox" checked={checked} onChange={() => setChecked((prev) => !prev)} />
+      </td>
+      <td>
+        <p className="p-2">{contact.id}</p>
       </td>
       <td className="">
         <EditableBlock name="firstName" contact={contact} />
