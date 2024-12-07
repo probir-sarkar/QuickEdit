@@ -21,7 +21,7 @@ export default function AddContactForm() {
   const onSubmit: SubmitHandler<ContactFormType> = async (data) => {
     toast.loading("Submitting...");
     try {
-      const response = await axiosInstance.post("/contacts", data);
+      const response = await axiosInstance.post("/", data);
       if (response.status === 200) {
         toast.dismiss();
         toast.success("Submitted");

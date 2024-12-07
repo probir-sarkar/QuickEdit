@@ -23,7 +23,7 @@ const fetcher: Fetcher<Contact[], string> = (url: string) =>
   fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`).then((res) => res.json());
 
 const ContactTable = () => {
-  const { data, error, isLoading } = useSWRImmutable("/contacts", fetcher, {
+  const { data, error, isLoading } = useSWRImmutable("/", fetcher, {
     revalidateOnMount: true,
   });
   const [currentPage, setCurrentPage] = useState(1);

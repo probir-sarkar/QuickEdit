@@ -15,7 +15,7 @@ const fetcher = (url: string) => axiosInstance.get(url).then((res) => res.data);
 
 export default function UpdateContactForm({ params }: { params: { formId: string } }) {
   const formId = +params.formId;
-  const { data, error, isLoading, isValidating, mutate } = useSWRImmutable(`/contacts/${formId}`, fetcher, {
+  const { data, error, isLoading, isValidating, mutate } = useSWRImmutable(`/${formId}`, fetcher, {
     revalidateOnMount: true,
   });
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function UpdateContactForm({ params }: { params: { formId: string
 
     toast.loading("Updating...");
     try {
-      const response = await axiosInstance.put(`/contacts/${formId}`, data);
+      const response = await axiosInstance.put(`/${formId}`, data);
       if (response.status === 200) {
         toast.dismiss();
         toast.success("Successfully Updated");

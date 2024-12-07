@@ -20,15 +20,21 @@ const TableRow: React.FC<Props> = ({ contact }) => {
     });
     try {
       if (!checked) return;
-      const res = await axiosInstance.delete(`/contacts/${contact.id}`);
-      if (res.status === 200) {
-        mutate("/contacts");
-        toast.dismiss(contact.id);
-        toast.success("Deleted");
+      const res = await axiosInstance.delete(`/${contact.id}`);
+      toast.dismiss(contact.id);
+      if (res.data?.success) {
+
+
+        toast.success(res.data?.message);
+      } else {
+
+        toast.error(res.data?.message);
       }
     } catch (error) {
       toast.dismiss(contact.id);
       toast.error("Failed to delete");
+    } finally {
+      mutate("/");
     }
   }
   return (

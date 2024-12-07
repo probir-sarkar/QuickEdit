@@ -16,8 +16,8 @@ export const EditableBlock: React.FC<Props> = ({ contact, name }) => {
   async function update() {
     try {
       setSaving(true);
-      const res = await axiosInstance.patch(`/contacts/${contact.id}`, { [name]: value });
-      if (res.status === 200) {
+      const res = await axiosInstance.patch(`/${contact.id}`, { [name]: value });
+      if (res.data?.success) {
         toast.success("Updated");
       } else {
         throw new Error("Failed to update");
